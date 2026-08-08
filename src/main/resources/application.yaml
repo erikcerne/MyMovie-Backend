@@ -1,3 +1,23 @@
 spring:
   application:
     name: MyMovies
+  datasource:
+    url: jdbc:postgresql://localhost:5432/movie
+    username: user
+    password: password
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: 8080
+
+tmdb:
+  api:
+    base-url: https://api.themoviedb.org/3
+    read-access-token: 5f1ff7d8915beb7e04e49651bde41b64
