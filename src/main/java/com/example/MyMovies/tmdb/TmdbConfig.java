@@ -3,7 +3,7 @@ package com.example.MyMovies.tmdb;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.client.RestClient;
 
 @Configuration
 public class TmdbConfig {
@@ -15,8 +15,8 @@ public class TmdbConfig {
     private String token;
 
     @Bean
-    public WebClient tmdbWebClient() {
-        return WebClient.builder()
+    public RestClient tmdbRestClient() {
+        return RestClient.builder()
                 .baseUrl(baseUrl)
                 .defaultHeader("Authorization", "Bearer " + token)
                 .defaultHeader("Accept", "application/json")

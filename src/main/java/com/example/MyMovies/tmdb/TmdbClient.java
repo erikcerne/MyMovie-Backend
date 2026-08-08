@@ -2,23 +2,21 @@ package com.example.MyMovies.tmdb;
 
 import com.example.MyMovies.tmdb.tmdbDtos.TmdbResponseDto;
 import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
+import org.springframework.web.client.RestClient;
 
 @Component
 public class TmdbClient {
 
-    WebClient webClient;
+    private final RestClient restClient;
 
-    public TmdbClient(WebClient webClient) {
-        this.webClient = webClient;
+    public TmdbClient(RestClient restClient) {
+        this.restClient = restClient;
     }
 
-    public Mono<TmdbResponseDto> trendingMovies() {
-        return webClient.get()
-                .uri(uriBuilder -> uriBuilder
-                        .path("/trending/movie/week").build())
+    public TmdbResponseDto trendingMovies() {
+        return restClient.get()
+                .uri("/trending/movie/week")
                 .retrieve()
-                .bodyToMono(TmdbResponseDto.class);
+                .body(TmdbResponseDto.class);
     }
 }
