@@ -1,12 +1,18 @@
+server:
+  port: 8080
+
 spring:
   application:
     name: MyMovies
+
   datasource:
-    url: jdbc:postgresql://localhost:5432/movie
+    url: jdbc:postgresql://localhost:5432/movie_catalog
     username: user
     password: password
     driver-class-name: org.postgresql.Driver
+
   jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
     show-sql: true
@@ -14,10 +20,15 @@ spring:
       hibernate:
         format_sql: true
 
-server:
-  port: 8080
-
 tmdb:
   api:
     base-url: https://api.themoviedb.org/3
     token: 5f1ff7d8915beb7e04e49651bde41b64
+
+jwt:
+  secret: d3JpdGUtYW55LXNlY3JldC1rZXktaGVyZS10aGF0LWlzLWxvbmctZW5vdWdo
+  expiration-ms: 86400000
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
