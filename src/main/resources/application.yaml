@@ -20,4 +20,4 @@ server:
 tmdb:
   api:
     base-url: https://api.themoviedb.org/3
-    read-access-token: 5f1ff7d8915beb7e04e49651bde41b64
+    token: 5f1ff7d8915beb7e04e49651bde41b64
