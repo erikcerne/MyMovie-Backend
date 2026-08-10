@@ -34,4 +34,11 @@ public class TmdbClient {
                 .retrieve()
                 .body(TmdbResponseDto.class);
     }
+
+    public TmdbResponseDto similarMoviesById(long id) {
+        return restClient.get()
+                .uri("/movie/" + id + "/similar")
+                .retrieve()
+                .body(TmdbResponseDto.class);
+    }
 }

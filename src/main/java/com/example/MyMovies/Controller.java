@@ -22,7 +22,7 @@ public class Controller {
         this.userService = userService;
     }
 
-    @GetMapping("/trending/movie")
+    @GetMapping("/movie/trending")
     public ResponseEntity<TmdbResponseDto> trendingMovies() {
         TmdbResponseDto tmdbResponseDto = tmdbClient.trendingMovies();
         return ResponseEntity.ok(tmdbResponseDto);
@@ -36,7 +36,13 @@ public class Controller {
 
     @GetMapping("/movie/nowplaying")
     public ResponseEntity<TmdbResponseDto> nowPlayingMovies() {
-        TmdbResponseDto tmdbResponseDto = tmdbClient.trendingMovies();
+        TmdbResponseDto tmdbResponseDto = tmdbClient.nowPlayingMovies();
+        return ResponseEntity.ok(tmdbResponseDto);
+    }
+
+    @GetMapping("/movie/trending/{id}")
+    public ResponseEntity<TmdbResponseDto> similarMoviesById( @PathVariable long id){
+        TmdbResponseDto tmdbResponseDto = tmdbClient.similarMoviesById(id);
         return ResponseEntity.ok(tmdbResponseDto);
     }
 }
