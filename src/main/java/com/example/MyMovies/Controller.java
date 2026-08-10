@@ -1,8 +1,8 @@
 package com.example.MyMovies;
 
-import com.example.MyMovies.UserRating.UserRatingScervice;
-import com.example.MyMovies.dtos.AddRatingDto;
+import com.example.MyMovies.UserRating.UserRatingService;
 import com.example.MyMovies.tmdb.TmdbClient;
+import com.example.MyMovies.tmdb.tmdbDtos.TmdbMovieDto;
 import com.example.MyMovies.tmdb.tmdbDtos.TmdbResponseDto;
 import com.example.MyMovies.user.UserService;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +14,9 @@ public class Controller {
 
     TmdbClient tmdbClient;
     UserService userService;
-    UserRatingScervice userRatingScervice;
+    UserRatingService userRatingScervice;
 
-    public Controller(TmdbClient tmdbClient, UserRatingScervice userRatingScervice, UserService userService) {
+    public Controller(TmdbClient tmdbClient, UserRatingService userRatingScervice, UserService userService) {
         this.tmdbClient = tmdbClient;
         this.userRatingScervice = userRatingScervice;
         this.userService = userService;
@@ -29,9 +29,9 @@ public class Controller {
     }
 
     @GetMapping("/movie/{id}")
-    public ResponseEntity<TmdbResponseDto> movieDetails(@PathVariable long id){
-        TmdbResponseDto tmdbResponseDto = tmdbClient.tmdbMovieDetails(id);
-        return ResponseEntity.ok(tmdbResponseDto);
+    public ResponseEntity<TmdbMovieDto> movieDetails(@PathVariable long id){
+        TmdbMovieDto tmdbMovieDto = tmdbClient.tmdbMovieDetails(id);
+        return ResponseEntity.ok(tmdbMovieDto);
     }
 
     @GetMapping("/movie/nowplaying")

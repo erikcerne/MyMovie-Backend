@@ -1,7 +1,8 @@
 package com.example.MyMovies.UserRating;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Repository
-public class UserRatingRepository {
+import java.util.UUID;
+
+public interface UserRatingRepository extends JpaRepository<UserRating, UUID> {
 }

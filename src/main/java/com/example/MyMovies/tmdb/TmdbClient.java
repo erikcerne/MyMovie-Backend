@@ -1,5 +1,6 @@
 package com.example.MyMovies.tmdb;
 
+import com.example.MyMovies.tmdb.tmdbDtos.TmdbMovieDto;
 import com.example.MyMovies.tmdb.tmdbDtos.TmdbResponseDto;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
@@ -20,11 +21,11 @@ public class TmdbClient {
                 .body(TmdbResponseDto.class);
     }
 
-    public TmdbResponseDto tmdbMovieDetails(long id){
+    public TmdbMovieDto tmdbMovieDetails(long id){
         return restClient.get()
                 .uri("/movie/" + id)
                 .retrieve()
-                .body(TmdbResponseDto.class);
+                .body(TmdbMovieDto.class);
     }
 
     public TmdbResponseDto nowPlayingMovies(){
