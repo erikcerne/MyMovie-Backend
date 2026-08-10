@@ -19,4 +19,11 @@ public class TmdbClient {
                 .retrieve()
                 .body(TmdbResponseDto.class);
     }
+
+    public TmdbResponseDto tmdbMovieDetails(long id){
+        return restClient.get()
+                .uri("/movie/" + id)
+                .retrieve()
+                .body(TmdbResponseDto.class);
+    }
 }
