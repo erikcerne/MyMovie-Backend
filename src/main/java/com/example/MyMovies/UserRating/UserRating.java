@@ -30,6 +30,6 @@ import java.util.UUID;
     @com.fasterxml.jackson.annotation.JsonIgnore
     private User user;
 
-    private Double rating;
+    private int rating;
     private String comment;
 }

@@ -22,7 +22,7 @@ public class Movie {
     private UUID movieId;
 
     @Column(name = "tmdb_id", unique = true)
-    private Long tmdbId;
+    private int tmdbId;
 
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
     private List<UserRating> ratings;
