@@ -34,5 +34,9 @@ public class Controller {
         return ResponseEntity.ok(tmdbResponseDto);
     }
 
-
+    @GetMapping("/movie/nowplaying")
+    public ResponseEntity<TmdbResponseDto> nowPlayingMovies() {
+        TmdbResponseDto tmdbResponseDto = tmdbClient.trendingMovies();
+        return ResponseEntity.ok(tmdbResponseDto);
+    }
 }
