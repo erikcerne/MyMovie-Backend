@@ -2,6 +2,7 @@ package com.example.MyMovies.tmdb;
 
 import com.example.MyMovies.tmdb.tmdbDtos.TmdbMovieDto;
 import com.example.MyMovies.tmdb.tmdbDtos.TmdbResponseDto;
+import com.example.MyMovies.tmdb.tmdbDtos.TmdbResultsReviewsDto;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
@@ -41,4 +42,12 @@ public class TmdbClient {
                 .retrieve()
                 .body(TmdbResponseDto.class);
     }
+
+    public TmdbResultsReviewsDto reviewsForMovie(long id) {
+        return restClient.get()
+                .uri("/movie/" + id + "/reviews")
+                .retrieve()
+                .body(TmdbResultsReviewsDto.class);
+    }
+
 }

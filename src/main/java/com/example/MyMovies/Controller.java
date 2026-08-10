@@ -4,6 +4,7 @@ import com.example.MyMovies.UserRating.UserRatingService;
 import com.example.MyMovies.tmdb.TmdbClient;
 import com.example.MyMovies.tmdb.tmdbDtos.TmdbMovieDto;
 import com.example.MyMovies.tmdb.tmdbDtos.TmdbResponseDto;
+import com.example.MyMovies.tmdb.tmdbDtos.TmdbResultsReviewsDto;
 import com.example.MyMovies.user.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,8 +29,8 @@ public class Controller {
         return ResponseEntity.ok(tmdbResponseDto);
     }
 
-    @GetMapping("/movie/{id}")
-    public ResponseEntity<TmdbMovieDto> movieDetails(@PathVariable long id){
+    @GetMapping("/movie/{id}/Details")
+    public ResponseEntity<TmdbMovieDto> movieDetails(@PathVariable long id) {
         TmdbMovieDto tmdbMovieDto = tmdbClient.tmdbMovieDetails(id);
         return ResponseEntity.ok(tmdbMovieDto);
     }
@@ -40,9 +41,15 @@ public class Controller {
         return ResponseEntity.ok(tmdbResponseDto);
     }
 
-    @GetMapping("/movie/trending/{id}")
-    public ResponseEntity<TmdbResponseDto> similarMoviesById( @PathVariable long id){
+    @GetMapping("/movie/{id}/trending")
+    public ResponseEntity<TmdbResponseDto> similarMoviesById(@PathVariable long id) {
         TmdbResponseDto tmdbResponseDto = tmdbClient.similarMoviesById(id);
         return ResponseEntity.ok(tmdbResponseDto);
+    }
+
+    @GetMapping("/movie/{id}reviews")
+    public ResponseEntity<TmdbResultsReviewsDto> reviews(@PathVariable long id){
+        TmdbResultsReviewsDto tmdbResultsReviewsDto = tmdbClient.reviewsForMovie(id);
+        return ResponseEntity.ok(tmdbResultsReviewsDto);
     }
 }
