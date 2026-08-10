@@ -28,8 +28,11 @@ public class Controller {
         return ResponseEntity.ok(tmdbResponseDto);
     }
 
-    @PostMapping("/raiting/add")
-    public ResponseEntity<void> addRaiting(@RequestBody AddRatingDto dto){
-
+    @GetMapping("/movie/{id}")
+    public ResponseEntity<TmdbResponseDto> movieDetails(@PathVariable long id){
+        TmdbResponseDto tmdbResponseDto = tmdbClient.tmdbMovieDetails(id);
+        return ResponseEntity.ok(tmdbResponseDto);
     }
+
+
 }
