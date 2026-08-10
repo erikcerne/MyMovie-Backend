@@ -26,4 +26,11 @@ public class TmdbClient {
                 .retrieve()
                 .body(TmdbResponseDto.class);
     }
+
+    public TmdbResponseDto nowPlayingMovies(){
+        return restClient.get()
+                .uri("/movie/now_playing")
+                .retrieve()
+                .body(TmdbResponseDto.class);
+    }
 }
