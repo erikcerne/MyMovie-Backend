@@ -1,4 +1,4 @@
 package com.example.MyMovies.movieUser;
 
-public class userRatingRepository {
+public class UserRatingScervice {
 }
