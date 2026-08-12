@@ -22,11 +22,11 @@ public class TmdbClient {
                 .body(TmdbResponseDto.class);
     }
 
-    public TmdbMovieDto tmdbMovieDetails(long id){
+    public TmdbResponseDto upcomingMovies(){
         return restClient.get()
-                .uri("/movie/" + id)
+                .uri("/movie/upcoming")
                 .retrieve()
-                .body(TmdbMovieDto.class);
+                .body(TmdbResponseDto.class);
     }
 
     public TmdbResponseDto nowPlayingMovies(){
@@ -35,6 +35,28 @@ public class TmdbClient {
                 .retrieve()
                 .body(TmdbResponseDto.class);
     }
+
+    public TmdbResponseDto topRatedMovies(){
+        return restClient.get()
+                .uri("/movie/top_rated")
+                .retrieve()
+                .body(TmdbResponseDto.class);
+    }
+
+    public TmdbResponseDto popularMovies(){
+        return restClient.get()
+                .uri("/movie/popular")
+                .retrieve()
+                .body(TmdbResponseDto.class);
+    }
+
+    public TmdbMovieDto tmdbMovieDetails(long id){
+        return restClient.get()
+                .uri("/movie/" + id)
+                .retrieve()
+                .body(TmdbMovieDto.class);
+    }
+
 
     public TmdbResponseDto similarMoviesById(long id) {
         return restClient.get()

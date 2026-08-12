@@ -23,9 +23,33 @@ public class Controller {
         this.userService = userService;
     }
 
+    @GetMapping("/movie/upcoming")
+    public ResponseEntity<TmdbResponseDto> upcomingMovies() {
+        TmdbResponseDto tmdbResponseDto = tmdbClient.upcomingMovies();
+        return ResponseEntity.ok(tmdbResponseDto);
+    }
+
     @GetMapping("/movie/trending")
     public ResponseEntity<TmdbResponseDto> trendingMovies() {
         TmdbResponseDto tmdbResponseDto = tmdbClient.trendingMovies();
+        return ResponseEntity.ok(tmdbResponseDto);
+    }
+
+    @GetMapping("/movie/top_rated")
+    public ResponseEntity<TmdbResponseDto> topRatedMovies() {
+        TmdbResponseDto tmdbResponseDto = tmdbClient.topRatedMovies();
+        return ResponseEntity.ok(tmdbResponseDto);
+    }
+
+    @GetMapping("/movie/nowplaying")
+    public ResponseEntity<TmdbResponseDto> nowPlayingMovies() {
+        TmdbResponseDto tmdbResponseDto = tmdbClient.nowPlayingMovies();
+        return ResponseEntity.ok(tmdbResponseDto);
+    }
+
+    @GetMapping("/movie/popular")
+    public ResponseEntity<TmdbResponseDto> popularMovies() {
+        TmdbResponseDto tmdbResponseDto = tmdbClient.popularMovies();
         return ResponseEntity.ok(tmdbResponseDto);
     }
 
@@ -35,19 +59,13 @@ public class Controller {
         return ResponseEntity.ok(tmdbMovieDto);
     }
 
-    @GetMapping("/movie/nowplaying")
-    public ResponseEntity<TmdbResponseDto> nowPlayingMovies() {
-        TmdbResponseDto tmdbResponseDto = tmdbClient.nowPlayingMovies();
-        return ResponseEntity.ok(tmdbResponseDto);
-    }
-
-    @GetMapping("/movie/{id}/trending")
+    @GetMapping("/movie/{id}/similar")
     public ResponseEntity<TmdbResponseDto> similarMoviesById(@PathVariable long id) {
         TmdbResponseDto tmdbResponseDto = tmdbClient.similarMoviesById(id);
         return ResponseEntity.ok(tmdbResponseDto);
     }
 
-    @GetMapping("/movie/{id}reviews")
+    @GetMapping("/movie/{id}/reviews")
     public ResponseEntity<TmdbResultsReviewsDto> reviews(@PathVariable long id){
         TmdbResultsReviewsDto tmdbResultsReviewsDto = tmdbClient.reviewsForMovie(id);
         return ResponseEntity.ok(tmdbResultsReviewsDto);
