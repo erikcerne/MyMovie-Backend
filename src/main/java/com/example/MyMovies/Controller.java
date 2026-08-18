@@ -2,6 +2,7 @@ package com.example.MyMovies;
 
 import com.example.MyMovies.UserRating.UserRatingService;
 import com.example.MyMovies.dtos.AddRatingDto;
+import com.example.MyMovies.dtos.GetAllRatingsDto;
 import com.example.MyMovies.tmdb.TmdbClient;
 import com.example.MyMovies.tmdb.tmdbDtos.TmdbMovieDto;
 import com.example.MyMovies.tmdb.tmdbDtos.TmdbResponseDto;
@@ -11,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin(origins = {"http://localhost:5173", "http://localhost:5174"})
@@ -27,6 +30,13 @@ public class Controller {
         this.userService = userService;
     }
 
+    @GetMapping("/revewe/all")
+    public ResponseEntity<List<GetAllRatingsDto>> getAllRatingsForUser(@AuthenticationPrincipal Jwt jwt) {
+        String authId = jwt.getSubject();
+        List<GetAllRatingsDto> getAllRatingsDtos = userRatingService.getAllRatings(authId);
+        return ResponseEntity.ok(getAllRatingsDtos);
+    }
+
     @PostMapping("/revewe")
     public ResponseEntity<Void> addRevewe(@AuthenticationPrincipal Jwt jwt, @RequestBody AddRatingDto addRatingDto) {
         String authId = jwt.getSubject();
@@ -34,7 +44,6 @@ public class Controller {
         return ResponseEntity.ok().build();
 
     }
-
 
     @PostMapping("/register")
     public ResponseEntity<Void> register(@AuthenticationPrincipal Jwt jwt, @RequestBody String name) {
