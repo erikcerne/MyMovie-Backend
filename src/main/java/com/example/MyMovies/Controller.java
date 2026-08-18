@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:5174"})
 @RequestMapping("/api")
 public class Controller {
 
@@ -66,7 +67,7 @@ public class Controller {
     }
 
     @GetMapping("/movie/{id}/reviews")
-    public ResponseEntity<TmdbResultsReviewsDto> reviews(@PathVariable long id){
+    public ResponseEntity<TmdbResultsReviewsDto> reviews(@PathVariable long id) {
         TmdbResultsReviewsDto tmdbResultsReviewsDto = tmdbClient.reviewsForMovie(id);
         return ResponseEntity.ok(tmdbResultsReviewsDto);
     }
