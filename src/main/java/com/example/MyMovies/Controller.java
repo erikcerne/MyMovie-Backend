@@ -1,6 +1,7 @@
 package com.example.MyMovies;
 
 import com.example.MyMovies.UserRating.UserRatingService;
+import com.example.MyMovies.dtos.AddRatingDto;
 import com.example.MyMovies.tmdb.TmdbClient;
 import com.example.MyMovies.tmdb.tmdbDtos.TmdbMovieDto;
 import com.example.MyMovies.tmdb.tmdbDtos.TmdbResponseDto;
@@ -18,13 +19,22 @@ public class Controller {
 
     TmdbClient tmdbClient;
     UserService userService;
-    UserRatingService userRatingScervice;
+    UserRatingService userRatingService;
 
-    public Controller(TmdbClient tmdbClient, UserRatingService userRatingScervice, UserService userService) {
+    public Controller(TmdbClient tmdbClient, UserRatingService userRatingService, UserService userService) {
         this.tmdbClient = tmdbClient;
-        this.userRatingScervice = userRatingScervice;
+        this.userRatingService = userRatingService;
         this.userService = userService;
     }
+
+    @PostMapping("/revewe")
+    public ResponseEntity<Void> addRevewe(@AuthenticationPrincipal Jwt jwt, @RequestBody AddRatingDto addRatingDto) {
+        String authId = jwt.getSubject();
+        userRatingService.addRevewe(authId, addRatingDto);
+        return ResponseEntity.ok().build();
+
+    }
+
 
     @PostMapping("/register")
     public ResponseEntity<Void> register(@AuthenticationPrincipal Jwt jwt, @RequestBody String name) {
