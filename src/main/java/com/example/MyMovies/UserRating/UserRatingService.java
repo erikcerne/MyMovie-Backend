@@ -1,6 +1,7 @@
 package com.example.MyMovies.UserRating;
 
 import com.example.MyMovies.dtos.AddRatingDto;
+import com.example.MyMovies.dtos.GetAllRatingsDto;
 import com.example.MyMovies.movie.Movie;
 import com.example.MyMovies.movie.MovieRepository;
 import com.example.MyMovies.tmdb.TmdbClient;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -47,5 +49,16 @@ public class UserRatingService {
                 tmdbMovieDto.popularity());
             movieJpa.save(movie);
     }
-}
 
+    public List<GetAllRatingsDto> getAllRatings(String id) {
+        List<UserRating> userRatings = jpa.findAllByUser_UserId(id);
+        return userRatings.stream().map(i ->
+                new GetAllRatingsDto(i.getComment(),
+                        i.getRating(),
+                        i.getMovie().getTmdbId(),
+                        i.getDate(),
+                        i.getMovie().getOriginalTitle(),
+                        i.getMovie().getOriginalTitle(),
+                        i.getMovie().getPopularity())).toList();
+    }
+}
