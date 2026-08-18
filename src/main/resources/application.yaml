@@ -4,6 +4,12 @@ server:
 spring:
   application:
     name: MyMovies
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: dev-jnlbp5hqfmbs1xp1.us.auth0.com
+          audiences: http://localhost:8080
 
   datasource:
     url: jdbc:postgresql://localhost:5432/movie
