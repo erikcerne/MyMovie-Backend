@@ -20,7 +20,6 @@ public class User {
     private String userId;
 
     private String username;
-    private String email;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<UserRating> ratings;
