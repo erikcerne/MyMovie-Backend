@@ -26,6 +26,13 @@ public class Controller {
         this.userService = userService;
     }
 
+    @PostMapping("/register")
+    public ResponseEntity<Void> register(@AuthenticationPrincipal Jwt jwt, @RequestBody String name) {
+        String authId = jwt.getSubject();
+        userService.registerUser(authId, name);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/isExistingUser")
     public ResponseEntity<Boolean> isExistingUser(@AuthenticationPrincipal Jwt jwt) {
         String authId = jwt.getSubject();
