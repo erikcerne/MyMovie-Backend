@@ -26,4 +26,8 @@ public class Movie {
 
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
     private List<UserRating> ratings;
+    private String originalTitle;
+    private String posterPath;
+    private Double voteAverage;
+    private Double popularity;
 }
