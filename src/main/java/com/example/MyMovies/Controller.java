@@ -7,6 +7,8 @@ import com.example.MyMovies.tmdb.tmdbDtos.TmdbResponseDto;
 import com.example.MyMovies.tmdb.tmdbDtos.TmdbResultsReviewsDto;
 import com.example.MyMovies.user.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,6 +24,12 @@ public class Controller {
         this.tmdbClient = tmdbClient;
         this.userRatingScervice = userRatingScervice;
         this.userService = userService;
+    }
+
+    @GetMapping("/isExistingUser")
+    public ResponseEntity<Boolean> isExistingUser(@AuthenticationPrincipal Jwt jwt) {
+        String authId = jwt.getSubject();
+        return ResponseEntity.ok(userService.isExistingUser(authId));
     }
 
     @GetMapping("/movie/upcoming")
