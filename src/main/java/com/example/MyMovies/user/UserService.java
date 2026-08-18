@@ -14,4 +14,11 @@ public class UserService {
     public boolean isExistingUser(String id) {
         return jpa.existsById(id);
     }
+
+    public void registerUser(String id, String name) {
+        User user = new User();
+        user.setUserId(id);
+        user.setUsername(name);
+        jpa.save(user);
+    }
 }
