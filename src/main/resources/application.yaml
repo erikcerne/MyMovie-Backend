@@ -1,3 +1,4 @@
+
 server:
   port: 8080
 
@@ -8,8 +9,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: dev-jnlbp5hqfmbs1xp1.us.auth0.com
-          audiences: http://localhost:8080
+          issuer-uri: https://dev-jnlbp5hqfmbs1xp1.us.auth0.com/
 
   datasource:
     url: jdbc:postgresql://localhost:5432/movie
@@ -33,6 +33,9 @@ tmdb:
 jwt:
   secret: d3JpdGUtYW55LXNlY3JldC1rZXktaGVyZS10aGF0LWlzLWxvbmctZW5vdWdo
   expiration-ms: 86400000
+
+auth0:
+  audience: https://mymovies-api
 
 springdoc:
   api-docs:
