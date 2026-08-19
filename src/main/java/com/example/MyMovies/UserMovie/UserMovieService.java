@@ -1,7 +1,7 @@
 package com.example.MyMovies.UserMovie;
 
 import com.example.MyMovies.dtos.AddRatingDto;
-import com.example.MyMovies.dtos.GetAllRatingsDto;
+import com.example.MyMovies.dtos.GetAllUserMoviesDto;
 import com.example.MyMovies.movie.Movie;
 import com.example.MyMovies.movie.MovieRepository;
 import com.example.MyMovies.tmdb.TmdbClient;
@@ -30,13 +30,23 @@ public class UserMovieService {
         UserJpa = userJpa;
     }
 
-    public void addRevewe(String id, AddRatingDto addRatingDto) {
+    public void addRevewe(String authId, AddRatingDto addRatingDto) {
         if (movieJpa.findByTmdbId(addRatingDto.tmdbId())) {
             saveMovie(addRatingDto.tmdbId());
         }
         Movie movie = movieJpa.findMovieByTmdbId(addRatingDto.tmdbId());
-        User user = UserJpa.findById(id).orElseThrow(() -> new NoSuchElementException("user dons not exist"));
+        User user = UserJpa.findById(authId).orElseThrow(() -> new NoSuchElementException("user dons not exist"));
         UserMovie userMovie = new UserMovie(null, movie, user, WatchStatus.WATCHED, addRatingDto.rating(), addRatingDto.content(), LocalDate.now());
+        jpa.save(userMovie);
+    }
+
+    public void addWatched(String authid, long tmdbId) {
+        if (movieJpa.findByTmdbId(tmdbId)) {
+            saveMovie(tmdbId);
+        }
+        Movie movie = movieJpa.findMovieByTmdbId(tmdbId);
+        User user = UserJpa.findById(authid).orElseThrow(() -> new NoSuchElementException("user dons not exist"));
+        UserMovie userMovie = new UserMovie(null, movie, user, WatchStatus.WATCHED, null, null, LocalDate.now());
         jpa.save(userMovie);
     }
 
@@ -50,15 +60,18 @@ public class UserMovieService {
         movieJpa.save(movie);
     }
 
-    public List<GetAllRatingsDto> getAllRatings(String id) {
-        List<UserMovie> userMovies = jpa.findAllByUser_UserId(id);
+    public List<GetAllUserMoviesDto> getAllRatings(String authId) {
+        List<UserMovie> userMovies = jpa.findAllByUser_UserId(authId);
         return userMovies.stream().map(i ->
-                new GetAllRatingsDto(i.getComment(),
+                new GetAllUserMoviesDto(i.getComment(),
                         i.getRating(),
                         i.getMovie().getTmdbId(),
+                        i.getStatus(),
                         i.getDate(),
                         i.getMovie().getOriginalTitle(),
                         i.getMovie().getOriginalTitle(),
                         i.getMovie().getPopularity())).toList();
     }
+
+
 }
