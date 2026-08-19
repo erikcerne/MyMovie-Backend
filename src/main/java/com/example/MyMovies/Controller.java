@@ -31,7 +31,7 @@ public class Controller {
         this.userService = userService;
     }
 
-    @GetMapping("/revewe/all")
+    @GetMapping("/usermovie/getall")
     public ResponseEntity<List<GetAllUserMoviesDto>> getAllRatingsForUser(@AuthenticationPrincipal Jwt jwt) {
         String authId = jwt.getSubject();
         List<GetAllUserMoviesDto> getAllRatingsDtos = userMovieService.getAllRatings(authId);
