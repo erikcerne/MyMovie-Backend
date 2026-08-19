@@ -1,6 +1,6 @@
 package com.example.MyMovies.user;
 
-import com.example.MyMovies.UserRating.UserRating;
+import com.example.MyMovies.UserMovie.UserMovie;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,5 +22,5 @@ public class User {
     private String username;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<UserRating> ratings;
+    private List<UserMovie> ratings;
 }

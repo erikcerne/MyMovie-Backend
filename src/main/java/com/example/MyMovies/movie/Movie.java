@@ -1,6 +1,6 @@
 package com.example.MyMovies.movie;
 
-import com.example.MyMovies.UserRating.UserRating;
+import com.example.MyMovies.UserMovie.UserMovie;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,7 +25,7 @@ public class Movie {
     private long tmdbId;
 
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
-    private List<UserRating> ratings;
+    private List<UserMovie> ratings;
     private String originalTitle;
     private String posterPath;
     private Double voteAverage;
