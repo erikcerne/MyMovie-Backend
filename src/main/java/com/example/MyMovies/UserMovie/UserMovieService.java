@@ -1,4 +1,4 @@
-package com.example.MyMovies.UserRating;
+package com.example.MyMovies.UserMovie;
 
 import com.example.MyMovies.dtos.AddRatingDto;
 import com.example.MyMovies.dtos.GetAllRatingsDto;
@@ -16,14 +16,14 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
-public class UserRatingService {
+public class UserMovieService {
 
-    UserRatingRepository jpa;
+    UserMovieRepository jpa;
     MovieRepository movieJpa;
     UserRepository UserJpa;
     TmdbClient tmdbClient;
 
-    public UserRatingService(UserRatingRepository jpa, MovieRepository movieJpa, TmdbClient tmdbClient, UserRepository userJpa) {
+    public UserMovieService(UserMovieRepository jpa, MovieRepository movieJpa, TmdbClient tmdbClient, UserRepository userJpa) {
         this.jpa = jpa;
         this.movieJpa = movieJpa;
         this.tmdbClient = tmdbClient;
@@ -36,8 +36,8 @@ public class UserRatingService {
         }
         Movie movie = movieJpa.findMovieByTmdbId(addRatingDto.tmdbId());
         User user = UserJpa.findById(id).orElseThrow(() -> new NoSuchElementException("user dons not exist"));
-        UserRating userRating = new UserRating(null, movie, user, addRatingDto.rating(), addRatingDto.content(), LocalDate.now());
-        jpa.save(userRating);
+        UserMovie userMovie = new UserMovie(null, movie, user, WatchStatus.WATCHED, addRatingDto.rating(), addRatingDto.content(), LocalDate.now());
+        jpa.save(userMovie);
     }
 
     private void saveMovie(Long tmdbId) {
@@ -47,12 +47,12 @@ public class UserRatingService {
                 tmdbMovieDto.posterPath(),
                 tmdbMovieDto.voteAverage(),
                 tmdbMovieDto.popularity());
-            movieJpa.save(movie);
+        movieJpa.save(movie);
     }
 
     public List<GetAllRatingsDto> getAllRatings(String id) {
-        List<UserRating> userRatings = jpa.findAllByUser_UserId(id);
-        return userRatings.stream().map(i ->
+        List<UserMovie> userMovies = jpa.findAllByUser_UserId(id);
+        return userMovies.stream().map(i ->
                 new GetAllRatingsDto(i.getComment(),
                         i.getRating(),
                         i.getMovie().getTmdbId(),

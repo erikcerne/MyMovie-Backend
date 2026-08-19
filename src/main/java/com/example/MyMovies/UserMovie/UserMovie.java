@@ -1,4 +1,4 @@
-package com.example.MyMovies.UserRating;
+package com.example.MyMovies.UserMovie;
 
 import com.example.MyMovies.movie.Movie;
 import com.example.MyMovies.user.User;
@@ -12,15 +12,15 @@ import java.util.UUID;
 
 @Entity
 @Data
-@Table(name = "user_rating")
+@Table(name = "user_movie")
 @NoArgsConstructor
 @AllArgsConstructor
-    public class UserRating {
+public class UserMovie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "rating_id")
-    private UUID ratingId;
+    @Column(name = "user_movie_id")
+    private UUID movieUserId;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "movie_id")
@@ -31,7 +31,13 @@ import java.util.UUID;
     @com.fasterxml.jackson.annotation.JsonIgnore
     private User user;
 
-    private int rating;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private WatchStatus status;
+
+    private Integer rating;
+
     private String comment;
+
     private LocalDate date;
 }
