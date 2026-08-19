@@ -40,13 +40,13 @@ public class UserMovieService {
         jpa.save(userMovie);
     }
 
-    public void addWatched(String authid, long tmdbId) {
+    public void addWatch(String authId, long tmdbId, WatchStatus status) {
         if (movieJpa.findByTmdbId(tmdbId)) {
             saveMovie(tmdbId);
         }
         Movie movie = movieJpa.findMovieByTmdbId(tmdbId);
-        User user = UserJpa.findById(authid).orElseThrow(() -> new NoSuchElementException("user dons not exist"));
-        UserMovie userMovie = new UserMovie(null, movie, user, WatchStatus.WATCHED, null, null, LocalDate.now());
+        User user = UserJpa.findById(authId).orElseThrow(() -> new NoSuchElementException("user dons not exist"));
+        UserMovie userMovie = new UserMovie(null, movie, user, status, null, null, LocalDate.now());
         jpa.save(userMovie);
     }
 

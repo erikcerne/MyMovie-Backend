@@ -1,6 +1,7 @@
 package com.example.MyMovies;
 
 import com.example.MyMovies.UserMovie.UserMovieService;
+import com.example.MyMovies.UserMovie.WatchStatus;
 import com.example.MyMovies.dtos.AddRatingDto;
 import com.example.MyMovies.dtos.GetAllUserMoviesDto;
 import com.example.MyMovies.tmdb.TmdbClient;
@@ -37,17 +38,24 @@ public class Controller {
         return ResponseEntity.ok(getAllRatingsDtos);
     }
 
-    @PostMapping("/revewe")
+    @PostMapping("/add/revewe")
     public ResponseEntity<Void> addRevewe(@AuthenticationPrincipal Jwt jwt, @RequestBody AddRatingDto addRatingDto) {
         String authId = jwt.getSubject();
         userMovieService.addRevewe(authId, addRatingDto);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/watched")
+    @PostMapping("/add/watched")
     public ResponseEntity<Void> addWatched(@AuthenticationPrincipal Jwt jwt, @RequestBody long tmdbId) {
         String authId = jwt.getSubject();
-        userMovieService.addWatched(authId, tmdbId);
+        userMovieService.addWatch(authId, tmdbId, WatchStatus.WATCHED);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/add/watched")
+    public ResponseEntity<Void> addWantToWatch(@AuthenticationPrincipal Jwt jwt, @RequestBody long tmdbId) {
+        String authId = jwt.getSubject();
+        userMovieService.addWatch(authId, tmdbId, WatchStatus.WANT_TO_WATCH);
         return ResponseEntity.ok().build();
     }
 
