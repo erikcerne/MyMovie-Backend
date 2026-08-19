@@ -31,7 +31,7 @@ public class Controller {
         this.userService = userService;
     }
 
-    @GetMapping("/usermovie/getall")
+    @GetMapping("/usermovie/get/all")
     public ResponseEntity<List<GetAllUserMoviesDto>> getAllRatingsForUser(@AuthenticationPrincipal Jwt jwt) {
         String authId = jwt.getSubject();
         List<GetAllUserMoviesDto> getAllRatingsDtos = userMovieService.getAllRatings(authId);
@@ -52,7 +52,7 @@ public class Controller {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/add/watched")
+    @PostMapping("/add/want/to/watched")
     public ResponseEntity<Void> addWantToWatch(@AuthenticationPrincipal Jwt jwt, @RequestBody long tmdbId) {
         String authId = jwt.getSubject();
         userMovieService.addWatch(authId, tmdbId, WatchStatus.WANT_TO_WATCH);
