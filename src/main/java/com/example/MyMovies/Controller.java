@@ -3,7 +3,7 @@ package com.example.MyMovies;
 import com.example.MyMovies.UserMovie.UserMovieService;
 import com.example.MyMovies.UserMovie.WatchStatus;
 import com.example.MyMovies.dtos.AddRatingDto;
-import com.example.MyMovies.dtos.GetAllUserMoviesDto;
+import com.example.MyMovies.dtos.AllUserMoviesDto;
 import com.example.MyMovies.tmdb.TmdbClient;
 import com.example.MyMovies.tmdb.tmdbDtos.TmdbMovieDto;
 import com.example.MyMovies.tmdb.tmdbDtos.TmdbResponseDto;
@@ -13,8 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @CrossOrigin(origins = {"http://localhost:5173", "http://localhost:5174"})
@@ -32,10 +30,10 @@ public class Controller {
     }
 
     @GetMapping("/usermovie/get/all")
-    public ResponseEntity<List<GetAllUserMoviesDto>> getAllRatingsForUser(@AuthenticationPrincipal Jwt jwt) {
+    public ResponseEntity<AllUserMoviesDto> getAllRatingsForUser(@AuthenticationPrincipal Jwt jwt) {
         String authId = jwt.getSubject();
-        List<GetAllUserMoviesDto> getAllRatingsDtos = userMovieService.getAllRatings(authId);
-        return ResponseEntity.ok(getAllRatingsDtos);
+        AllUserMoviesDto allUserMoviesDto = userMovieService.getAllRatings(authId);
+        return ResponseEntity.ok(allUserMoviesDto);
     }
 
     @PostMapping("/add/revewe")
