@@ -2,7 +2,7 @@ package com.example.MyMovies;
 
 import com.example.MyMovies.UserMovie.UserMovieService;
 import com.example.MyMovies.dtos.AddRatingDto;
-import com.example.MyMovies.dtos.GetAllRatingsDto;
+import com.example.MyMovies.dtos.GetAllUserMoviesDto;
 import com.example.MyMovies.tmdb.TmdbClient;
 import com.example.MyMovies.tmdb.tmdbDtos.TmdbMovieDto;
 import com.example.MyMovies.tmdb.tmdbDtos.TmdbResponseDto;
@@ -31,9 +31,9 @@ public class Controller {
     }
 
     @GetMapping("/revewe/all")
-    public ResponseEntity<List<GetAllRatingsDto>> getAllRatingsForUser(@AuthenticationPrincipal Jwt jwt) {
+    public ResponseEntity<List<GetAllUserMoviesDto>> getAllRatingsForUser(@AuthenticationPrincipal Jwt jwt) {
         String authId = jwt.getSubject();
-        List<GetAllRatingsDto> getAllRatingsDtos = userMovieService.getAllRatings(authId);
+        List<GetAllUserMoviesDto> getAllRatingsDtos = userMovieService.getAllRatings(authId);
         return ResponseEntity.ok(getAllRatingsDtos);
     }
 
@@ -42,7 +42,13 @@ public class Controller {
         String authId = jwt.getSubject();
         userMovieService.addRevewe(authId, addRatingDto);
         return ResponseEntity.ok().build();
+    }
 
+    @PostMapping("/watched")
+    public ResponseEntity<Void> addWatched(@AuthenticationPrincipal Jwt jwt, @RequestBody long tmdbId) {
+        String authId = jwt.getSubject();
+        userMovieService.addWatched(authId, tmdbId);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/register")
