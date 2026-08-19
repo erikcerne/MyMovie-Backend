@@ -1,6 +1,6 @@
 package com.example.MyMovies;
 
-import com.example.MyMovies.UserRating.UserRatingService;
+import com.example.MyMovies.UserMovie.UserMovieService;
 import com.example.MyMovies.dtos.AddRatingDto;
 import com.example.MyMovies.dtos.GetAllRatingsDto;
 import com.example.MyMovies.tmdb.TmdbClient;
@@ -22,25 +22,25 @@ public class Controller {
 
     TmdbClient tmdbClient;
     UserService userService;
-    UserRatingService userRatingService;
+    UserMovieService userMovieService;
 
-    public Controller(TmdbClient tmdbClient, UserRatingService userRatingService, UserService userService) {
+    public Controller(TmdbClient tmdbClient, UserMovieService userMovieService, UserService userService) {
         this.tmdbClient = tmdbClient;
-        this.userRatingService = userRatingService;
+        this.userMovieService = userMovieService;
         this.userService = userService;
     }
 
     @GetMapping("/revewe/all")
     public ResponseEntity<List<GetAllRatingsDto>> getAllRatingsForUser(@AuthenticationPrincipal Jwt jwt) {
         String authId = jwt.getSubject();
-        List<GetAllRatingsDto> getAllRatingsDtos = userRatingService.getAllRatings(authId);
+        List<GetAllRatingsDto> getAllRatingsDtos = userMovieService.getAllRatings(authId);
         return ResponseEntity.ok(getAllRatingsDtos);
     }
 
     @PostMapping("/revewe")
     public ResponseEntity<Void> addRevewe(@AuthenticationPrincipal Jwt jwt, @RequestBody AddRatingDto addRatingDto) {
         String authId = jwt.getSubject();
-        userRatingService.addRevewe(authId, addRatingDto);
+        userMovieService.addRevewe(authId, addRatingDto);
         return ResponseEntity.ok().build();
 
     }
