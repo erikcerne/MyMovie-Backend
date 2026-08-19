@@ -1,7 +1,8 @@
 package com.example.MyMovies.UserMovie;
 
 import com.example.MyMovies.dtos.AddRatingDto;
-import com.example.MyMovies.dtos.GetAllUserMoviesDto;
+import com.example.MyMovies.dtos.AllUserMoviesDto;
+import com.example.MyMovies.dtos.UserMoviesDto;
 import com.example.MyMovies.movie.Movie;
 import com.example.MyMovies.movie.MovieRepository;
 import com.example.MyMovies.tmdb.TmdbClient;
@@ -60,17 +61,35 @@ public class UserMovieService {
         movieJpa.save(movie);
     }
 
-    public List<GetAllUserMoviesDto> getAllRatings(String authId) {
+    public AllUserMoviesDto getAllRatings(String authId) {
+
         List<UserMovie> userMovies = jpa.findAllByUser_UserId(authId);
-        return userMovies.stream().map(i ->
-                new GetAllUserMoviesDto(i.getComment(),
+        List<UserMoviesDto> allWatched = filterOnStatus(WatchStatus.WATCHED, userMovies);
+        List<UserMoviesDto> wantToWatch = filterOnStatus(WatchStatus.WANT_TO_WATCH, userMovies);
+
+        List<UserMoviesDto> reviewed = allWatched.stream()
+                .filter(i -> i.rating() != null)
+                .toList();
+        List<UserMoviesDto> watched = allWatched.stream()
+                .filter(i -> i.rating() == null)
+                .toList();
+
+        return new AllUserMoviesDto(reviewed, watched, wantToWatch);
+    }
+
+    private List<UserMoviesDto> filterOnStatus(WatchStatus status, List<UserMovie> userMovies) {
+        return userMovies.stream()
+                .filter(i -> i.getStatus().equals(status))
+                .map(i -> new UserMoviesDto(
+                        i.getComment(),
                         i.getRating(),
                         i.getMovie().getTmdbId(),
                         i.getStatus(),
                         i.getDate(),
                         i.getMovie().getOriginalTitle(),
-                        i.getMovie().getOriginalTitle(),
-                        i.getMovie().getPopularity())).toList();
+                        i.getMovie().getPosterPath(),
+                        i.getMovie().getPopularity()
+                )).toList();
     }
 
 
