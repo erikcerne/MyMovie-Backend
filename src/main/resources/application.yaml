@@ -7,7 +7,7 @@ spring:
     name: MyMovies
   security:
     oauth2:
-      resourceserver:
+      resource server:
         jwt:
           issuer-uri: https://dev-jnlbp5hqfmbs1xp1.us.auth0.com/
 
