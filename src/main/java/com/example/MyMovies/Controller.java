@@ -1,9 +1,10 @@
 package com.example.MyMovies;
 
 import com.example.MyMovies.UserMovie.UserMovieService;
-import com.example.MyMovies.UserMovie.WatchStatus;
 import com.example.MyMovies.dtos.AddRatingDto;
+import com.example.MyMovies.dtos.AddToLibraryDto;
 import com.example.MyMovies.dtos.AllUserMoviesDto;
+import com.example.MyMovies.dtos.RegisterUserDto;
 import com.example.MyMovies.tmdb.TmdbClient;
 import com.example.MyMovies.tmdb.tmdbDtos.TmdbMovieDto;
 import com.example.MyMovies.tmdb.tmdbDtos.TmdbResponseDto;
@@ -29,90 +30,83 @@ public class Controller {
         this.userService = userService;
     }
 
-    @GetMapping("/usermovie/get/all")
+    @GetMapping("/users/me/movies")
     public ResponseEntity<AllUserMoviesDto> getAllRatingsForUser(@AuthenticationPrincipal Jwt jwt) {
         String authId = jwt.getSubject();
         AllUserMoviesDto allUserMoviesDto = userMovieService.getAllRatings(authId);
         return ResponseEntity.ok(allUserMoviesDto);
     }
 
-    @PostMapping("/add/revewe")
-    public ResponseEntity<Void> addRevewe(@AuthenticationPrincipal Jwt jwt, @RequestBody AddRatingDto addRatingDto) {
+    @PostMapping("/users/me/movies/reviews")
+    public ResponseEntity<Void> addReview(@AuthenticationPrincipal Jwt jwt, @RequestBody AddRatingDto addRatingDto) {
         String authId = jwt.getSubject();
         userMovieService.addRevewe(authId, addRatingDto);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/add/watched")
-    public ResponseEntity<Void> addWatched(@AuthenticationPrincipal Jwt jwt, @RequestBody long tmdbId) {
+    @PostMapping("/users/me/movies/library")
+    public ResponseEntity<Void> addToLibrary(@AuthenticationPrincipal Jwt jwt, @RequestBody AddToLibraryDto addToLibraryDto) {
         String authId = jwt.getSubject();
-        userMovieService.addWatch(authId, tmdbId, WatchStatus.WATCHED);
+        userMovieService.addWatch(authId, addToLibraryDto.tmdbId(), addToLibraryDto.watchStatus());
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/add/want/to/watch")
-    public ResponseEntity<Void> addWantToWatch(@AuthenticationPrincipal Jwt jwt, @RequestBody long tmdbId) {
+    @PostMapping("/users")
+    public ResponseEntity<Void> register(@AuthenticationPrincipal Jwt jwt, @RequestBody RegisterUserDto registerUserDto) {
         String authId = jwt.getSubject();
-        userMovieService.addWatch(authId, tmdbId, WatchStatus.WANT_TO_WATCH);
+        userService.registerUser(authId, registerUserDto.name());
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<Void> register(@AuthenticationPrincipal Jwt jwt, @RequestBody String name) {
-        String authId = jwt.getSubject();
-        userService.registerUser(authId, name);
-        return ResponseEntity.ok().build();
-    }
-
-    @GetMapping("/isExistingUser")
+    @GetMapping("/users/me/exists")
     public ResponseEntity<Boolean> isExistingUser(@AuthenticationPrincipal Jwt jwt) {
         String authId = jwt.getSubject();
         return ResponseEntity.ok(userService.isExistingUser(authId));
     }
 
-    @GetMapping("/movie/upcoming")
+    @GetMapping("/movies/upcoming")
     public ResponseEntity<TmdbResponseDto> upcomingMovies() {
         TmdbResponseDto tmdbResponseDto = tmdbClient.upcomingMovies();
         return ResponseEntity.ok(tmdbResponseDto);
     }
 
-    @GetMapping("/movie/trending")
+    @GetMapping("/movies/trending")
     public ResponseEntity<TmdbResponseDto> trendingMovies() {
         TmdbResponseDto tmdbResponseDto = tmdbClient.trendingMovies();
         return ResponseEntity.ok(tmdbResponseDto);
     }
 
-    @GetMapping("/movie/top_rated")
+    @GetMapping("/movies/top-rated")
     public ResponseEntity<TmdbResponseDto> topRatedMovies() {
         TmdbResponseDto tmdbResponseDto = tmdbClient.topRatedMovies();
         return ResponseEntity.ok(tmdbResponseDto);
     }
 
-    @GetMapping("/movie/nowplaying")
+    @GetMapping("/movies/now-playing")
     public ResponseEntity<TmdbResponseDto> nowPlayingMovies() {
         TmdbResponseDto tmdbResponseDto = tmdbClient.nowPlayingMovies();
         return ResponseEntity.ok(tmdbResponseDto);
     }
 
-    @GetMapping("/movie/popular")
+    @GetMapping("/movies/popular")
     public ResponseEntity<TmdbResponseDto> popularMovies() {
         TmdbResponseDto tmdbResponseDto = tmdbClient.popularMovies();
         return ResponseEntity.ok(tmdbResponseDto);
     }
 
-    @GetMapping("/movie/{id}/Details")
+    @GetMapping("/movies/{id}")
     public ResponseEntity<TmdbMovieDto> movieDetails(@PathVariable long id) {
         TmdbMovieDto tmdbMovieDto = tmdbClient.tmdbMovieDetails(id);
         return ResponseEntity.ok(tmdbMovieDto);
     }
 
-    @GetMapping("/movie/{id}/similar")
+    @GetMapping("/movies/{id}/similar")
     public ResponseEntity<TmdbResponseDto> similarMoviesById(@PathVariable long id) {
         TmdbResponseDto tmdbResponseDto = tmdbClient.similarMoviesById(id);
         return ResponseEntity.ok(tmdbResponseDto);
     }
 
-    @GetMapping("/movie/{id}/reviews")
+    @GetMapping("/movies/{id}/reviews")
     public ResponseEntity<TmdbResultsReviewsDto> reviews(@PathVariable long id) {
         TmdbResultsReviewsDto tmdbResultsReviewsDto = tmdbClient.reviewsForMovie(id);
         return ResponseEntity.ok(tmdbResultsReviewsDto);
