@@ -6,7 +6,6 @@ import java.util.UUID;
 
 public interface MovieRepository extends JpaRepository<Movie, UUID> {
 
-    boolean findByTmdbId(long tmdbId);
-
+    boolean existsByTmdbId(long tmdbId);
     Movie findMovieByTmdbId(long tmdbId);
 }
