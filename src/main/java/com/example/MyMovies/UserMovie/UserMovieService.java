@@ -32,32 +32,28 @@ public class UserMovieService {
     }
 
     public void addRevewe(String authId, AddRatingDto addRatingDto) {
-        if (movieJpa.findByTmdbId(addRatingDto.tmdbId())) {
+        if (!movieJpa.existsByTmdbId(addRatingDto.tmdbId())) {
             saveMovie(addRatingDto.tmdbId());
         }
         Movie movie = movieJpa.findMovieByTmdbId(addRatingDto.tmdbId());
-        User user = UserJpa.findById(authId).orElseThrow(() -> new NoSuchElementException("user dons not exist"));
+        User user = UserJpa.findById(authId).orElseThrow(() -> new NoSuchElementException("User does not exist"));
         UserMovie userMovie = new UserMovie(null, movie, user, WatchStatus.WATCHED, addRatingDto.rating(), addRatingDto.content(), LocalDate.now());
         jpa.save(userMovie);
     }
 
     public void addWatch(String authId, long tmdbId, WatchStatus status) {
-        if (movieJpa.findByTmdbId(tmdbId)) {
+        if (!movieJpa.existsByTmdbId(tmdbId)) {
             saveMovie(tmdbId);
         }
         Movie movie = movieJpa.findMovieByTmdbId(tmdbId);
-        User user = UserJpa.findById(authId).orElseThrow(() -> new NoSuchElementException("user dons not exist"));
+        User user = UserJpa.findById(authId).orElseThrow(() -> new NoSuchElementException("User does not exist"));
         UserMovie userMovie = new UserMovie(null, movie, user, status, null, null, LocalDate.now());
         jpa.save(userMovie);
     }
 
     private void saveMovie(Long tmdbId) {
         TmdbMovieDto tmdbMovieDto = tmdbClient.tmdbMovieDetails(tmdbId);
-        Movie movie = new Movie(null, tmdbId, new ArrayList<>(),
-                tmdbMovieDto.originalTitle(),
-                tmdbMovieDto.posterPath(),
-                tmdbMovieDto.voteAverage(),
-                tmdbMovieDto.releaseDate());
+        Movie movie = new Movie(null, tmdbId, new ArrayList<>(), tmdbMovieDto.originalTitle(), tmdbMovieDto.posterPath(), tmdbMovieDto.voteAverage(), tmdbMovieDto.releaseDate());
         movieJpa.save(movie);
     }
 
@@ -67,31 +63,13 @@ public class UserMovieService {
         List<UserMoviesDto> allWatched = filterOnStatus(WatchStatus.WATCHED, userMovies);
         List<UserMoviesDto> wantToWatch = filterOnStatus(WatchStatus.WANT_TO_WATCH, userMovies);
 
-        List<UserMoviesDto> reviewed = allWatched.stream()
-                .filter(i -> i.rating() != null)
-                .toList();
-        List<UserMoviesDto> watched = allWatched.stream()
-                .filter(i -> i.rating() == null)
-                .toList();
+        List<UserMoviesDto> reviewed = allWatched.stream().filter(i -> i.rating() != null).toList();
+        List<UserMoviesDto> watched = allWatched.stream().filter(i -> i.rating() == null).toList();
 
         return new AllUserMoviesDto(reviewed, watched, wantToWatch);
     }
 
     private List<UserMoviesDto> filterOnStatus(WatchStatus status, List<UserMovie> userMovies) {
-        return userMovies.stream()
-                .filter(i -> i.getStatus().equals(status))
-                .map(i -> new UserMoviesDto(
-                        i.getComment(),
-                        i.getRating(),
-                        i.getMovie().getTmdbId(),
-                        i.getStatus(),
-                        i.getAddedDate(),
-                        i.getMovie().getOriginalTitle(),
-                        i.getMovie().getPosterPath(),
-                        i.getMovie().getVoteAverage(),
-                        i.getMovie().getReleaseDate()
-                )).toList();
+        return userMovies.stream().filter(i -> i.getStatus().equals(status)).map(i -> new UserMoviesDto(i.getComment(), i.getRating(), i.getMovie().getTmdbId(), i.getStatus(), i.getAddedDate(), i.getMovie().getOriginalTitle(), i.getMovie().getPosterPath(), i.getMovie().getVoteAverage(), i.getMovie().getReleaseDate())).toList();
     }
-
-
 }
