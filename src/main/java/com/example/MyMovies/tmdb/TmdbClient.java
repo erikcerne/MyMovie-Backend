@@ -60,7 +60,7 @@ public class TmdbClient {
 
     public TmdbResponseDto similarMoviesById(long id) {
         return restClient.get()
-                .uri("/movie/" + id + "/similar")
+                .uri("/movie/" + id + "/recommendations")
                 .retrieve()
                 .body(TmdbResponseDto.class);
     }
