@@ -6,5 +6,5 @@ import java.time.LocalDate;
 
 public record UserMoviesDto(String content, Integer rating, long tmdbId, WatchStatus status, LocalDate date,
                             String originalTitle,
-                            String posterPath, Double popularity) {
+                            String posterPath, Double popularity, String releaseDate) {
 }

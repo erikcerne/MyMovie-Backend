@@ -57,7 +57,8 @@ public class UserMovieService {
                 tmdbMovieDto.originalTitle(),
                 tmdbMovieDto.posterPath(),
                 tmdbMovieDto.voteAverage(),
-                tmdbMovieDto.popularity());
+                tmdbMovieDto.popularity(),
+                tmdbMovieDto.releaseDate());
         movieJpa.save(movie);
     }
 
@@ -85,10 +86,11 @@ public class UserMovieService {
                         i.getRating(),
                         i.getMovie().getTmdbId(),
                         i.getStatus(),
-                        i.getDate(),
+                        i.getAddedDate(),
                         i.getMovie().getOriginalTitle(),
                         i.getMovie().getPosterPath(),
-                        i.getMovie().getPopularity()
+                        i.getMovie().getPopularity(),
+                        i.getMovie().getReleaseDate()
                 )).toList();
     }
 

@@ -39,5 +39,5 @@ public class UserMovie {
 
     private String comment;
 
-    private LocalDate date;
+    private LocalDate addedDate;
 }
