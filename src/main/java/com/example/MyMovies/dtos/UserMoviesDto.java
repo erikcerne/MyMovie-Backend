@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 
-public record UserMoviesDto(String content, Integer rating, long tmdbId, WatchStatus status, LocalDate date,
+public record UserMoviesDto(String content, Integer rating, long id, WatchStatus status, LocalDate date,
                             String originalTitle,
                             String posterPath, Double voteAverage, String releaseDate) {
 }
