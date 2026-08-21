@@ -29,6 +29,5 @@ public class Movie {
     private String originalTitle;
     private String posterPath;
     private Double voteAverage;
-    private Double popularity;
     private String releaseDate;
 }
