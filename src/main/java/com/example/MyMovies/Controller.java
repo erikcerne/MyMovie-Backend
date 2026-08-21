@@ -50,7 +50,7 @@ public class Controller {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/add/want/to/watched")
+    @PostMapping("/add/want/to/watch")
     public ResponseEntity<Void> addWantToWatch(@AuthenticationPrincipal Jwt jwt, @RequestBody long tmdbId) {
         String authId = jwt.getSubject();
         userMovieService.addWatch(authId, tmdbId, WatchStatus.WANT_TO_WATCH);
