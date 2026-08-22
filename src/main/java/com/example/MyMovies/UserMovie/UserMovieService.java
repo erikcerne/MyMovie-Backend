@@ -128,7 +128,7 @@ public class UserMovieService {
 
     public MovieDetailsLogInDto getMovieDetailsLogIn(String authId, long tmdbId) {
         UserMovie userMovie = jpa.findByUser_UserIdAndMovie_TmdbId(authId, tmdbId)
-                .orElseThrow(() -> new NoSuchElementException("Movie not found in user's library"));
+                .orElse(new UserMovie());
         TmdbMovieDto tmdbMovieDto = tmdbClient.tmdbMovieDetails(tmdbId);
         return new MovieDetailsLogInDto(tmdbMovieDto, userMovie.getStatus(), userMovie.getComment(), userMovie.getRating());
     }
