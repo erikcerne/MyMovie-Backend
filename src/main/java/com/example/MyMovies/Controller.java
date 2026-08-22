@@ -28,7 +28,7 @@ public class Controller {
         this.userService = userService;
     }
 
-    @GetMapping("/movies/{id}")
+    @GetMapping("/movies/{tmdbId}")
     public ResponseEntity<MovieDetailsLogInDto> movieDetailsLogIn(@AuthenticationPrincipal Jwt jwt, @PathVariable long tmdbId) {
         String authId = jwt.getSubject();
         MovieDetailsLogInDto movieDetailsLogInDto = userMovieService.getMovieDetailsLogIn(authId, tmdbId);
