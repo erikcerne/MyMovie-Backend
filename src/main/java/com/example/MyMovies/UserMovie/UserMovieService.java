@@ -35,6 +35,9 @@ public class UserMovieService {
         if (!movieJpa.existsByTmdbId(addRatingDto.tmdbId())) {
             saveMovie(addRatingDto.tmdbId());
         }
+        if (jpa.existsUserMovieByUser_UserIdAndMovie_TmdbId(authId, addRatingDto.tmdbId())) {
+            throw new RuntimeException("Movie already exist in user movies");
+        }
         Movie movie = movieJpa.findMovieByTmdbId(addRatingDto.tmdbId());
         User user = UserJpa.findById(authId).orElseThrow(() -> new NoSuchElementException("User does not exist"));
         UserMovie userMovie = new UserMovie(null, movie, user, WatchStatus.WATCHED, addRatingDto.rating(), addRatingDto.content(), LocalDate.now());
@@ -44,6 +47,9 @@ public class UserMovieService {
     public void addWatch(String authId, long tmdbId, WatchStatus status) {
         if (!movieJpa.existsByTmdbId(tmdbId)) {
             saveMovie(tmdbId);
+        }
+        if (jpa.existsUserMovieByUser_UserIdAndMovie_TmdbId(authId, tmdbId)) {
+            throw new RuntimeException("Movie already exist in user movies");
         }
         Movie movie = movieJpa.findMovieByTmdbId(tmdbId);
         User user = UserJpa.findById(authId).orElseThrow(() -> new NoSuchElementException("User does not exist"));
