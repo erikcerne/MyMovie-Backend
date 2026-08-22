@@ -82,4 +82,13 @@ public class UserMovieService {
     public void deleteMovieFromLibrary(String authId, long tmdbId) {
         jpa.deleteByMovie_TmdbIdAndUser_UserId(tmdbId, authId);
     }
+
+    public void updateStatus(String authId, long tmdbId, WatchStatus status) {
+        UserMovie userMovie = jpa.findByUser_UserIdAndMovie_TmdbId(authId, tmdbId);
+        userMovie.setStatus(status);
+        userMovie.setAddedDate(LocalDate.now());
+        userMovie.setComment(null);
+        userMovie.setRating(null);
+        jpa.save(userMovie);
+    }
 }
