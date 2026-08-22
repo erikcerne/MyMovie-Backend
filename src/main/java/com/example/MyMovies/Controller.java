@@ -30,6 +30,14 @@ public class Controller {
         this.userService = userService;
     }
 
+    @DeleteMapping("/delete/movie/{tmdbId}")
+    public ResponseEntity<Void> deleteMovieFromLibrary(@AuthenticationPrincipal Jwt jwt, @PathVariable long tmdbId) {
+        String authId = jwt.getSubject();
+        userMovieService.deleteMovieFromLibrary(authId, tmdbId);
+        return ResponseEntity.noContent().build();
+    }
+
+
     @GetMapping("/users/me/movies")
     public ResponseEntity<AllUserMoviesDto> getAllRatingsForUser(@AuthenticationPrincipal Jwt jwt) {
         String authId = jwt.getSubject();
