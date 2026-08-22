@@ -103,7 +103,9 @@ public class UserMovieService {
     }
 
     public void deleteMovieFromLibrary(String authId, long tmdbId) {
-        jpa.deleteByMovie_TmdbIdAndUser_UserId(tmdbId, authId);
+        UserMovie userMovie = jpa.findByUser_UserIdAndMovie_TmdbId(authId, tmdbId)
+                .orElseThrow(() -> new NoSuchElementException("Movie not found in user's library"));
+        jpa.delete(userMovie);
     }
 
     public void updateStatus(String authId, long tmdbId, WatchStatus status) {
