@@ -78,4 +78,8 @@ public class UserMovieService {
     private List<UserMoviesDto> filterOnStatus(WatchStatus status, List<UserMovie> userMovies) {
         return userMovies.stream().filter(i -> i.getStatus().equals(status)).map(i -> new UserMoviesDto(i.getComment(), i.getRating(), i.getMovie().getTmdbId(), i.getStatus(), i.getAddedDate(), i.getMovie().getOriginalTitle(), i.getMovie().getPosterPath(), i.getMovie().getVoteAverage(), i.getMovie().getReleaseDate())).toList();
     }
+
+    public void deleteMovieFromLibrary(String authId, long tmdbId) {
+        jpa.deleteByMovie_TmdbIdAndUser_UserId(tmdbId, authId);
+    }
 }
