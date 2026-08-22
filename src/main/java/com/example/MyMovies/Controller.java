@@ -2,10 +2,7 @@ package com.example.MyMovies;
 
 import com.example.MyMovies.UserMovie.UserMovieService;
 import com.example.MyMovies.UserMovie.WatchStatus;
-import com.example.MyMovies.dtos.AddRatingDto;
-import com.example.MyMovies.dtos.AddToLibraryDto;
-import com.example.MyMovies.dtos.AllUserMoviesDto;
-import com.example.MyMovies.dtos.RegisterUserDto;
+import com.example.MyMovies.dtos.*;
 import com.example.MyMovies.tmdb.TmdbClient;
 import com.example.MyMovies.tmdb.tmdbDtos.TmdbMovieDto;
 import com.example.MyMovies.tmdb.tmdbDtos.TmdbResponseDto;
@@ -29,6 +26,13 @@ public class Controller {
         this.tmdbClient = tmdbClient;
         this.userMovieService = userMovieService;
         this.userService = userService;
+    }
+
+    @GetMapping("/movies/{id}")
+    public ResponseEntity<MovieDetailsLogInDto> movieDetailsLogIn(@AuthenticationPrincipal Jwt jwt, @PathVariable long tmdbId) {
+        String authId = jwt.getSubject();
+        MovieDetailsLogInDto movieDetailsLogInDto = userMovieService.getMovieDetailsLogIn(authId, tmdbId);
+        return ResponseEntity.ok(movieDetailsLogInDto);
     }
 
     @DeleteMapping("/delete/movie/{tmdbId}")
