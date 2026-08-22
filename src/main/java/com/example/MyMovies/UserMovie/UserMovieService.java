@@ -2,6 +2,7 @@ package com.example.MyMovies.UserMovie;
 
 import com.example.MyMovies.dtos.AddRatingDto;
 import com.example.MyMovies.dtos.AllUserMoviesDto;
+import com.example.MyMovies.dtos.MovieDetailsLogInDto;
 import com.example.MyMovies.dtos.UserMoviesDto;
 import com.example.MyMovies.movie.Movie;
 import com.example.MyMovies.movie.MovieRepository;
@@ -123,6 +124,13 @@ public class UserMovieService {
         userMovie.setComment(addRatingDto.content());
         userMovie.setAddedDate(LocalDate.now());
         jpa.save(userMovie);
+    }
+
+    public MovieDetailsLogInDto getMovieDetailsLogIn(String authId, long tmdbId) {
+        UserMovie userMovie = jpa.findByUser_UserIdAndMovie_TmdbId(authId, tmdbId)
+                .orElseThrow(() -> new NoSuchElementException("Movie not found in user's library"));
+        TmdbMovieDto tmdbMovieDto = tmdbClient.tmdbMovieDetails(tmdbId);
+        return new MovieDetailsLogInDto(tmdbMovieDto, userMovie.getStatus(), userMovie.getComment(), userMovie.getRating());
     }
 
 }
