@@ -3,6 +3,7 @@ package com.example.MyMovies.UserMovie;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface UserMovieRepository extends JpaRepository<UserMovie, UUID> {
@@ -12,5 +13,5 @@ public interface UserMovieRepository extends JpaRepository<UserMovie, UUID> {
 
     void deleteByMovie_TmdbIdAndUser_UserId(long movieTmdbId, String userUserId);
 
-    UserMovie findByUser_UserIdAndMovie_TmdbId(String userUserId, long movieTmdbId);
+    Optional<UserMovie> findByUser_UserIdAndMovie_TmdbId(String userUserId, long movieTmdbId);
 }

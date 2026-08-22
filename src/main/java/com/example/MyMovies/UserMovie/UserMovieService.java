@@ -106,7 +106,8 @@ public class UserMovieService {
     }
 
     public void updateStatus(String authId, long tmdbId, WatchStatus status) {
-        UserMovie userMovie = jpa.findByUser_UserIdAndMovie_TmdbId(authId, tmdbId);
+        UserMovie userMovie = jpa.findByUser_UserIdAndMovie_TmdbId(authId, tmdbId)
+                .orElseThrow(() -> new NoSuchElementException("Movie not found in user's library"));
         userMovie.setStatus(status);
         userMovie.setAddedDate(LocalDate.now());
         userMovie.setComment(null);
@@ -115,8 +116,8 @@ public class UserMovieService {
     }
 
     public void updateReview(String authId, AddRatingDto addRatingDto) {
-        UserMovie userMovie = jpa.findByUser_UserIdAndMovie_TmdbId(authId, addRatingDto.tmdbId());
-
+        UserMovie userMovie = jpa.findByUser_UserIdAndMovie_TmdbId(authId, addRatingDto.tmdbId())
+                .orElseThrow(() -> new NoSuchElementException("Movie not found in user's library"));
         userMovie.setStatus(WatchStatus.WATCHED);
         userMovie.setRating(addRatingDto.rating());
         userMovie.setComment(addRatingDto.content());
