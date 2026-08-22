@@ -45,6 +45,12 @@ public class Controller {
         return ResponseEntity.ok().build();
     }
 
+    @PutMapping("/update/review")
+    public ResponseEntity<Void> updateReview(@AuthenticationPrincipal Jwt jwt, @RequestBody AddRatingDto addRatingDto) {
+        String authId = jwt.getSubject();
+        userMovieService.updateReview(authId, addRatingDto);
+        return ResponseEntity.ok().build();
+    }
 
     @GetMapping("/users/me/movies")
     public ResponseEntity<AllUserMoviesDto> getAllRatingsForUser(@AuthenticationPrincipal Jwt jwt) {
