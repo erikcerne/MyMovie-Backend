@@ -11,7 +11,5 @@ public interface UserMovieRepository extends JpaRepository<UserMovie, UUID> {
 
     boolean existsUserMovieByUser_UserIdAndMovie_TmdbId(String userUserId, long movieTmdbId);
 
-    void deleteByMovie_TmdbIdAndUser_UserId(long movieTmdbId, String userUserId);
-
     Optional<UserMovie> findByUser_UserIdAndMovie_TmdbId(String userUserId, long movieTmdbId);
 }
