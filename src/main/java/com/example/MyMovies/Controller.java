@@ -14,7 +14,6 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:5174"})
 @RequestMapping("/api")
 public class Controller {
 
@@ -28,28 +27,28 @@ public class Controller {
         this.userService = userService;
     }
 
-    @GetMapping("/movies/{tmdbId}")
+    @GetMapping("/users/me/movies/{tmdbId}")
     public ResponseEntity<MovieDetailsLogInDto> movieDetailsLogIn(@AuthenticationPrincipal Jwt jwt, @PathVariable long tmdbId) {
         String authId = jwt.getSubject();
         MovieDetailsLogInDto movieDetailsLogInDto = userMovieService.getMovieDetailsLogIn(authId, tmdbId);
         return ResponseEntity.ok(movieDetailsLogInDto);
     }
 
-    @DeleteMapping("/delete/movie/{tmdbId}")
+    @DeleteMapping("/users/me/movies/{tmdbId}")
     public ResponseEntity<Void> deleteMovieFromLibrary(@AuthenticationPrincipal Jwt jwt, @PathVariable long tmdbId) {
         String authId = jwt.getSubject();
         userMovieService.deleteMovieFromLibrary(authId, tmdbId);
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/update/status/{tmdbId}")
+    @PutMapping("/users/me/movies/{tmdbId}/status")
     public ResponseEntity<Void> updateMovieStatus(@AuthenticationPrincipal Jwt jwt, @PathVariable long tmdbId, @RequestBody WatchStatus status) {
         String authId = jwt.getSubject();
         userMovieService.updateStatus(authId, tmdbId, status);
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/update/review")
+    @PutMapping("/users/me/movies/reviews")
     public ResponseEntity<Void> updateReview(@AuthenticationPrincipal Jwt jwt, @RequestBody AddRatingDto addRatingDto) {
         String authId = jwt.getSubject();
         userMovieService.updateReview(authId, addRatingDto);
