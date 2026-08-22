@@ -1,6 +1,7 @@
 package com.example.MyMovies;
 
 import com.example.MyMovies.UserMovie.UserMovieService;
+import com.example.MyMovies.UserMovie.WatchStatus;
 import com.example.MyMovies.dtos.AddRatingDto;
 import com.example.MyMovies.dtos.AddToLibraryDto;
 import com.example.MyMovies.dtos.AllUserMoviesDto;
@@ -35,6 +36,13 @@ public class Controller {
         String authId = jwt.getSubject();
         userMovieService.deleteMovieFromLibrary(authId, tmdbId);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/update/status/{tmdbId}")
+    public ResponseEntity<Void> updateMovieStatus(@AuthenticationPrincipal Jwt jwt, @PathVariable long tmdbId, @RequestBody WatchStatus status) {
+        String authId = jwt.getSubject();
+        userMovieService.updateStatus(authId, tmdbId, status);
+        return ResponseEntity.ok().build();
     }
 
 
